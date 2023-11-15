@@ -59,10 +59,10 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'Upload package'
       artifact: drop
-- task: PipAuthenticate@1
-  inputs:
-    artifactFeeds: 'Brown-L61'
-    
+    - task: PipAuthenticate@1
+      inputs:
+        artifactFeeds: 'Brown-L61'
+
 - stage: Deploy
   displayName: 'Deploy Web App'
   dependsOn: Build
