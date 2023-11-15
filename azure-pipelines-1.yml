@@ -63,11 +63,7 @@ stages:
       inputs:
         artifactFeeds: 'Brown-L61'
 
-     task: PublishCodeCoverageResults@1
-      inputs:
-      codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
-
+     
 - stage: Test
   displayName: 'Test'
   dependsOn: Build
@@ -115,3 +111,8 @@ stages:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
