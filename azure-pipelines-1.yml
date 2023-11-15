@@ -63,6 +63,11 @@ stages:
       inputs:
         artifactFeeds: 'Brown-L61'
 
+     task: PublishCodeCoverageResults@1
+      inputs:
+      codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+
 - stage: Test
   displayName: 'Test'
   dependsOn: Build
@@ -83,6 +88,7 @@ stages:
          - task: UsePythonVersion@0
            inputs:
            versionSpec: '$(python.version)'
+   
 
 - stage: Deploy
   displayName: 'Deploy Web App'
