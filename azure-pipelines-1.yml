@@ -63,9 +63,30 @@ stages:
       inputs:
         artifactFeeds: 'Brown-L61'
 
+- stage: Test
+  displayName: 'Test'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+    - job: Test
+  pool:
+    vmImage: 'ubuntu-latest' # other options: 'macOS-latest', 'windows-latest'
+    strategy:
+    matrix:
+      Python38:
+        python.version: '3.8'
+      Python39:
+        python.version: '3.9'
+      Python310:
+        python.version: '3.10'
+        steps:
+         - task: UsePythonVersion@0
+           inputs:
+           versionSpec: '$(python.version)'
+
 - stage: Deploy
   displayName: 'Deploy Web App'
-  dependsOn: Build
+  dependsOn: Test
   condition: succeeded()
   jobs:
   - deployment: DeploymentJob
